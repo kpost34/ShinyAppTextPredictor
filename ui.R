@@ -11,9 +11,9 @@ ui<-fluidPage(
         sidebarPanel(
             textAreaInput("box1","Enter text here"),
             submitButton("Submit"),
-            checkboxInput("showWord1","Show most likely word"),
-            checkboxInput("showWord2","Show second-most likely word"),
-            checkboxInput("showWord3","show third-most likely word")
+            checkboxInput("showWord1","Show most likely word",value=TRUE),
+            checkboxInput("showWord2","Show second-most likely word",value=TRUE),
+            checkboxInput("showWord3","show third-most likely word",value=TRUE)
         ),
         mainPanel(
             tabsetPanel(type="tabs",
@@ -28,7 +28,7 @@ ui<-fluidPage(
                 tabPanel("Documentation",br(),verbatimTextOutput("doc")),
                 tabPanel("Code",tags$div(
                             "If you would like to see the code for this Shiny app, please visit my",
-                            tags$a(href="https://github.com/kpost34/DevelDataPro_ShinyAppandRepPitchAssign", 
+                            tags$a(href="https://github.com/kpost34/ShinyAppTextPredictor", 
                                    "Github repo"),"."))
                 
             )
