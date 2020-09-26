@@ -46,7 +46,7 @@ badwords<-readLines("badwords.txt")
 train_toks_bwr<-tokens_remove(train_toks,badwords) #removes offensive words
 
 
-#5-Build n-grams and frequency tables
+#5-Build n-grams 
 #bigrams
 samp_2grams<-tokens_ngrams(train_toks_bwr,n=2,concatenator=" ") 
 train_2grams<-as.character(samp_2grams) 
@@ -64,12 +64,7 @@ last_bigrams4<-word(train_2grams[7344339:9792450],-1,-1)
 last_bigrams<-c(last_bigrams1,last_bigrams2,last_bigrams3,last_bigrams4)
 
 dt_bigrams<-data.table(pre_bigrams,last_bigrams)
-dt_bigrams_freq<-dt_bigrams %>% 
-	group_by(pre_bigrams,last_bigrams) %>% 
-	summarize(n=n()) %>%
-	mutate(freq=n/sum(n)) %>%
-	select(pre_bigrams,last_bigrams,freq)
-saveRDS(dt_bigrams_freq,"dt_bigrams_freq.rds")
+saveRDS(dt_bigrams,"/Users/keithpost/Documents/Coursera/10-Data Science Capstone/dt_bigrams.rds")
 
 #trigrams
 samp_3grams<-tokens_ngrams(train_toks_bwr,n=3,concatenator=" ") 
@@ -88,12 +83,7 @@ last_trigrams4<-word(train_3grams[7023695:9364926],-1,-1)
 last_trigrams<-c(last_trigrams1,last_trigrams2,last_trigrams3,last_trigrams4)
 
 dt_trigrams<-data.table(pre_trigrams,last_trigrams)
-dt_trigrams_freq<-dt_trigrams %>% 
-	group_by(pre_trigrams,last_trigrams) %>% 
-	summarize(n=n()) %>%
-	mutate(freq=n/sum(n)) %>%
-	select(pre_trigrams,last_trigrams,freq)
-saveRDS(dt_trigrams_freq,"dt_trigrams_freq.rds")
+saveRDS(dt_trigrams,"/Users/keithpost/Documents/Coursera/10-Data Science Capstone/dt_trigrams.rds")
 
 #4grams
 samp_4grams<-tokens_ngrams(train_toks_bwr,n=4,concatenator=" ") 
@@ -112,13 +102,7 @@ last_4grams4<-word(train_4grams[6711051:8948066],-1,-1)
 last_4grams<-c(last_4grams1,last_4grams2,last_4grams3,last_4grams4)
 
 dt_4grams<-data.table(pre_4grams,last_4grams)
-dt_4grams_freq<-dt_4grams %>% 
-	group_by(pre_4grams,last_4grams) %>% 
-	summarize(n=n()) %>%
-	mutate(freq=n/sum(n)) %>%
-	select(pre_4grams,last_4grams,freq)
-saveRDS(dt_4grams_freq,"dt_4grams_freq.rds")
-
+saveRDS(dt_4grams,"/Users/keithpost/Documents/Coursera/10-Data Science Capstone/dt_4grams.rds")
 
 #5grams
 samp_5grams<-tokens_ngrams(train_toks_bwr,n=5,concatenator=" ") 
@@ -133,13 +117,126 @@ pre_5grams<-c(pre_5grams1,pre_5grams2,pre_5grams3,pre_5grams4)
 last_5grams1<-word(train_5grams[1:2136553],-1,-1)
 last_5grams2<-word(train_5grams[2136554:4273106],-1,-1)
 last_5grams3<-word(train_5grams[4273107:6409659],-1,-1)
-last_5grams4<-word(train_5grams[6409660:8546212],-1,-1)d
+last_5grams4<-word(train_5grams[6409660:8546212],-1,-1)
 last_5grams<-c(last_5grams1,last_5grams2,last_5grams3,last_5grams4)
 
 dt_5grams<-data.table(pre_5grams,last_5grams)
-dt_5grams_freq<-dt_5grams %>% 
-	group_by(pre_5grams,last_5grams) %>% 
-	summarize(n=n()) %>%
-	mutate(freq=n/sum(n)) %>%
-	select(pre_5grams,last_5grams,freq)
-saveRDS(dt_5grams_freq,"dt_5grams_freq.rds")
+saveRDS(dt_5grams,"/Users/keithpost/Documents/Coursera/10-Data Science Capstone/dt_5grams.rds")
+
+
+#6-Process data: remove low frequency stems and pwords and condense data
+#bigrams
+#load data
+dt_bigrams<-data.table(readRDS("/Users/keithpost/Documents/Coursera/10-Data Science Capstone/dt_bigrams.rds"))
+
+#compute stem counts and filter out unique stems (n=1)
+dtbi_highf<-
+	dt_bigrams %>% 
+	add_count(pre_bigrams,name="fwn") %>%
+	filter(fwn>1)
+
+#compute pword counts and freqs, sort data, and condense data based on distinct bigrams
+dtbi_highfreqs<-
+	dtbi_highf %>%
+	add_count(pre_bigrams,last_bigrams,name="l1n") %>%
+	mutate(l1freq=l1n/fwn) %>%
+	mutate(l1freq=round(l1freq,6)) %>%
+	arrange(desc(fwn),pre_bigrams,desc(l1freq)) %>%
+	distinct(pre_bigrams,last_bigrams,.keep_all=TRUE) 
+
+#keep the three most frequent pwords for each stem and list only the stem and pwords in final table
+dtbi_final<-dtbi_highfreqs %>%
+	group_by(pre_bigrams) %>%
+	slice_max(order_by=c(pre_bigrams,l1freq),n=3,with_ties=FALSE) %>%
+	ungroup() %>%
+	select(pre_bigrams,last_bigrams)
+
+#save processed data
+saveRDS(dtbi_final,"/Users/keithpost/Documents/Coursera/10-Data Science Capstone/ShinyAppTextPredictor/dt_bigrams_freq.rds")
+
+#trigrams
+#load data
+dt_trigrams<-data.table(readRDS("/Users/keithpost/Documents/Coursera/10-Data Science Capstone/dt_trigrams.rds"))
+
+#compute stem counts and filter out unique stems (n=1)
+dttri_highf<-
+	dt_trigrams %>% 
+	add_count(pre_trigrams,name="f2n") %>%
+	filter(f2n>1)
+
+#compute pword counts and freqs, sort data, and condense data based on distinct trigrams
+dttri_highfreqs<-
+	dttri_highf %>%
+	add_count(pre_trigrams,last_trigrams,name="l1n") %>%
+	mutate(l1freq=l1n/f2n) %>%
+	mutate(l1freq=round(l1freq,6)) %>%
+	arrange(desc(f2n),pre_trigrams,desc(l1freq)) %>%
+	distinct(pre_trigrams,last_trigrams,.keep_all=TRUE) 
+
+#keep the three most frequent pwords for each stem and list only the stem and pwords in final table
+dttri_final<-dttri_highfreqs %>%
+	group_by(pre_trigrams) %>%
+	slice_max(order_by=c(pre_trigrams,l1freq),n=3,with_ties=FALSE) %>%
+	ungroup() %>%
+	select(pre_trigrams,last_trigrams)
+
+#save processed data
+saveRDS(dttri_final,"/Users/keithpost/Documents/Coursera/10-Data Science Capstone/ShinyAppTextPredictor/dt_trigrams_freq.rds")
+
+#4grams
+#load data
+dt_4grams<-data.table(readRDS("/Users/keithpost/Documents/Coursera/10-Data Science Capstone/dt_4grams.rds"))
+
+#compute stem counts and filter out unique stems (n=1)
+dt4_highf<-
+	dt_4grams %>% 
+	add_count(pre_4grams,name="f3n") %>%
+	filter(f3n>1)
+
+#compute pword counts and freqs, sort data, and condense data based on distinct 4grams
+dt4_highfreqs<-
+	dt4_highf %>%
+	add_count(pre_4grams,last_4grams,name="l1n") %>%
+	mutate(l1freq=l1n/f3n) %>%
+	mutate(l1freq=round(l1freq,6)) %>%
+	arrange(desc(f3n),pre_4grams,desc(l1freq)) %>%
+	distinct(pre_4grams,last_4grams,.keep_all=TRUE) 
+
+#keep the three most frequent pwords for each stem and list only the stem and pwords in final table
+dt4_final<-dt4_highfreqs %>%
+	group_by(pre_4grams) %>%
+	slice_max(order_by=c(pre_4grams,l1freq),n=3,with_ties=FALSE) %>%
+	ungroup() %>%
+	select(pre_4grams,last_4grams)
+
+#save processed data
+saveRDS(dt4_final,"/Users/keithpost/Documents/Coursera/10-Data Science Capstone/ShinyAppTextPredictor/dt_4grams_freq.rds")
+
+#5grams
+#load data
+dt_5grams<-data.table(readRDS("/Users/keithpost/Documents/Coursera/10-Data Science Capstone/dt_5grams.rds"))
+
+#compute stem counts and filter out unique stems (n=1)
+dt5_highf<-
+	dt_5grams %>% 
+	add_count(pre_5grams,name="f4n") %>%
+	filter(f4n>1)
+
+#compute pword counts and freqs, sort data, and condense data based on distinct 4grams
+dt5_highfreqs<-
+	dt5_highf %>%
+	add_count(pre_5grams,last_5grams,name="l1n") %>%
+	mutate(l1freq=l1n/f4n) %>%
+	mutate(l1freq=round(l1freq,6)) %>%
+	arrange(desc(f4n),pre_5grams,desc(l1freq)) %>%
+	distinct(pre_5grams,last_5grams,.keep_all=TRUE) 
+
+#keep the three most frequent pwords for each stem and list only the stem and pwords in final table
+dt5_final<-dt5_highfreqs %>%
+	group_by(pre_5grams) %>%
+	slice_max(order_by=c(pre_5grams,l1freq),n=3,with_ties=FALSE) %>%
+	ungroup() %>%
+	select(pre_5grams,last_5grams)
+
+#save processed data
+saveRDS(dt5_final,"/Users/keithpost/Documents/Coursera/10-Data Science Capstone/ShinyAppTextPredictor/dt_5grams_freq.rds")
