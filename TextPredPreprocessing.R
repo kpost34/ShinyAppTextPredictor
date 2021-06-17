@@ -239,4 +239,8 @@ dt5_final<-dt5_highfreqs %>%
 	select(pre_5grams,last_5grams)
 
 #save processed data
+<<<<<<< HEAD
 saveRDS(dt5_final,"/Users/keithpost/Documents/Coursera/10-Data Science Capstone/ShinyAppTextPredictor/dt_5grams_freq.rds")
+=======
+saveRDS(dt5_final,"/Users/keithpost/Documents/Coursera/10-Data Science Capstone/ShinyAppTextPredictor/dt_5grams_freq.rds")
+>>>>>>> 7a0732e5dbaab07cac1483b876a119d0045bb774
