@@ -1,12 +1,12 @@
 library(shiny)
 
-# Define UI for application that draws a histogram
+# Define UI for application 
 ui<-fluidPage(
 
     # Application title
     titlePanel("Text Predictor"),
 
-    # Sidebar with a slider input for number of bins
+    # Sidebar with checkbox input 
     sidebarLayout(
         sidebarPanel(
             textAreaInput("box1","Enter text here"),
