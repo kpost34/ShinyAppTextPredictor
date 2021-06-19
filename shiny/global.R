@@ -1,0 +1,12 @@
+source("textpred.R")
+library(data.table)
+
+#load data
+dt_bigrams_freq<-data.table(readRDS("dt_bigrams_freq.rds"))
+dt_trigrams_freq<-data.table(readRDS("dt_trigrams_freq.rds"))
+dt_4grams_freq<-data.table(readRDS("dt_4grams_freq.rds"))
+<<<<<<< HEAD
+dt_5grams_freq<-data.table(readRDS("dt_5grams_freq.rds"))
+=======
+dt_5grams_freq<-data.table(readRDS("dt_5grams_freq.rds"))
+>>>>>>> 7a0732e5dbaab07cac1483b876a119d0045bb774
