@@ -45,8 +45,4 @@ textpred<-function(text){
 		else{return(noquote(t3_bigrams$last_bigrams))
 		}
 	}
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 7a0732e5dbaab07cac1483b876a119d0045bb774
