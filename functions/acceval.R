@@ -20,8 +20,4 @@ acceval<-function(corpus,n){
 		twacc<-(length(which(wordframe$score>0))/n)*100
 	output<-list(predicted_and_actual_words=wordframe,first_word_accuraccy=paste0(fwacc,"%"),second_word_accuracy=paste0(swacc,"%"),third_word_accuracy=paste0(twacc,"%"))
 	print(output)
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 7a0732e5dbaab07cac1483b876a119d0045bb774
