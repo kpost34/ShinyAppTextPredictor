@@ -6,11 +6,8 @@ ui<-fluidPage(
     # Application title
     titlePanel("Text Predictor"),
 
-<<<<<<< HEAD
+
     # Sidebar with checkbox input 
-=======
-    # Sidebar with a checkbox input 
->>>>>>> 7a0732e5dbaab07cac1483b876a119d0045bb774
     sidebarLayout(
         sidebarPanel(
             textAreaInput("box1","Enter text here"),
