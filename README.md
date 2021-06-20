@@ -21,7 +21,10 @@ The aim of this project was to build a model to predict the next word when given
 - [x] Build algorithm
 - [x] Evaluate algorithm
 - [x] Develop R Shiny app
-- [x] Compose R R Presentation slides
+- [x] Compose R Presentation slides
+
+## Shiny App
++ [Click here to access the Shiny app](https://keithhpost.shinyapps.io/Text_Predictor_Shiny_App/)
 
 #### **Project Creator: Keith Post**
 + [Github Profile](https://github.com/kpost34) 
