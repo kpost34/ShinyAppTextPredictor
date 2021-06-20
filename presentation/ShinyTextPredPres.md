@@ -55,17 +55,17 @@ Predictive Performance and Speed
 
 ```
 $first_word_accuraccy
-[1] "12%"
+[1] "14.5%"
 
 $second_word_accuracy
-[1] "16.5%"
+[1] "20.5%"
 
 $third_word_accuracy
-[1] "20%"
+[1] "25.5%"
 ```
 + Word prediction is incredibly fast as well (see average processing speeds below for haphazard samples of 1-4grams)
 
-<center>
+<center> 
 
 |n-gram|unigram|bigram|trigram|4gram|
 |---|:--:|:--:|:--:|:--:
@@ -76,7 +76,7 @@ $third_word_accuracy
 
 How the App Works
 ========================================================
-+ [Open app in a separate tab] (https://keithhpost.shinyapps.io/shinyapptextpredictor/?_ga=2.159148664.376912172.1601144118-703276549.1600845238)
++ [Open app in a separate tab] (https://keithhpost.shinyapps.io/Text_Predictor_Shiny_App/)
 + Type your text in the box
 + Check the box(es) for the number of predicted words and click submit
 + Predicted words are displayed to the right/below
