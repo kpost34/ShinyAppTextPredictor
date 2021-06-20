@@ -41,7 +41,7 @@ toks<-tokens(corp,remove_punc=TRUE,remove_separators=TRUE)
 train_toks<-tokens_tolower(toks)
 
 #remove obscene language
-badwords<-readLines("/Users/keithpost/Documents/Coursera/Data Science Specialization/10-Data Science Capstone/ShinyAppTextPredictor/data/badwords.txt")
+badwords<-readLines("/Users/keithpost/Documents/Coursera/Data Science Specialization/10-Data Science Capstone/ShinyAppTextPredictor/text_pred_app/data/badwords.txt")
 train_toks_bwr<-tokens_remove(train_toks,badwords) #removes offensive words
 
 
@@ -63,7 +63,7 @@ last_bigrams4<-word(train_2grams[7344339:9792450],-1,-1)
 last_bigrams<-c(last_bigrams1,last_bigrams2,last_bigrams3,last_bigrams4)
 
 dt_bigrams<-data.table(pre_bigrams,last_bigrams)
-saveRDS(dt_bigrams,"/Users/keithpost/Documents/Coursera/Data Science Specialization/10-Data Science Capstone/ShinyAppTextPredictor/data/dt_bigrams.rds")
+saveRDS(dt_bigrams,"/Users/keithpost/Documents/Coursera/Data Science Specialization/10-Data Science Capstone/ShinyAppTextPredictor/text_pred_app/data/dt_bigrams.rds")
 
 #trigrams
 samp_3grams<-tokens_ngrams(train_toks_bwr,n=3,concatenator=" ") 
@@ -82,7 +82,7 @@ last_trigrams4<-word(train_3grams[7023695:9364926],-1,-1)
 last_trigrams<-c(last_trigrams1,last_trigrams2,last_trigrams3,last_trigrams4)
 
 dt_trigrams<-data.table(pre_trigrams,last_trigrams)
-saveRDS(dt_trigrams,"/Users/keithpost/Documents/Coursera/Data Science Specialization/10-Data Science Capstone/ShinyAppTextPredictor/data/dt_trigrams.rds")
+saveRDS(dt_trigrams,"/Users/keithpost/Documents/Coursera/Data Science Specialization/10-Data Science Capstone/ShinyAppTextPredictor/text_pred_app/data/dt_trigrams.rds")
 
 #4grams
 samp_4grams<-tokens_ngrams(train_toks_bwr,n=4,concatenator=" ") 
@@ -101,7 +101,7 @@ last_4grams4<-word(train_4grams[6711051:8948066],-1,-1)
 last_4grams<-c(last_4grams1,last_4grams2,last_4grams3,last_4grams4)
 
 dt_4grams<-data.table(pre_4grams,last_4grams)
-saveRDS(dt_4grams,"/Users/keithpost/Documents/Coursera/Data Science Specialization/10-Data Science Capstone/ShinyAppTextPredictor/data/dt_4grams.rds")
+saveRDS(dt_4grams,"/Users/keithpost/Documents/Coursera/Data Science Specialization/10-Data Science Capstone/ShinyAppTextPredictor/text_pred_app/data/dt_4grams.rds")
 
 #5grams
 samp_5grams<-tokens_ngrams(train_toks_bwr,n=5,concatenator=" ") 
@@ -120,13 +120,13 @@ last_5grams4<-word(train_5grams[6409660:8546212],-1,-1)
 last_5grams<-c(last_5grams1,last_5grams2,last_5grams3,last_5grams4)
 
 dt_5grams<-data.table(pre_5grams,last_5grams)
-saveRDS(dt_5grams,"/Users/keithpost/Documents/Coursera/Data Science Specialization/10-Data Science Capstone/ShinyAppTextPredictor/data/dt_5grams.rds")
+saveRDS(dt_5grams,"/Users/keithpost/Documents/Coursera/Data Science Specialization/10-Data Science Capstone/ShinyAppTextPredictor/text_pred_app/data/dt_5grams.rds")
 
 
 #6-Process data: remove low frequency stems and pwords and condense data
 #bigrams
 #load data
-dt_bigrams<-data.table(readRDS("/Users/keithpost/Documents/Coursera/Data Science Specialization/10-Data Science Capstone/ShinyAppTextPredictor/data/dt_bigrams.rds"))
+dt_bigrams<-data.table(readRDS("/Users/keithpost/Documents/Coursera/Data Science Specialization/10-Data Science Capstone/ShinyAppTextPredictor/text_pred_app/data/dt_bigrams.rds"))
 
 #compute stem counts and filter out unique stems (n=1)
 dtbi_highf<-
@@ -151,11 +151,11 @@ dtbi_final<-dtbi_highfreqs %>%
 	select(pre_bigrams,last_bigrams)
 
 #save processed data
-saveRDS(dtbi_final,"/Users/keithpost/Documents/Coursera/Data Science Specialization/10-Data Science Capstone/ShinyAppTextPredictor/data/dt_bigrams_freq.rds")
+saveRDS(dtbi_final,"/Users/keithpost/Documents/Coursera/Data Science Specialization/10-Data Science Capstone/ShinyAppTextPredictor/text_pred_app/data/dt_bigrams_freq.rds")
 
 #trigrams
 #load data
-dt_trigrams<-data.table(readRDS("/Users/keithpost/Documents/Coursera/Data Science Specialization/10-Data Science Capstone/ShinyAppTextPredictor/data/dt_trigrams.rds"))
+dt_trigrams<-data.table(readRDS("/Users/keithpost/Documents/Coursera/Data Science Specialization/10-Data Science Capstone/ShinyAppTextPredictor/text_pred_app/data/dt_trigrams.rds"))
 
 #compute stem counts and filter out unique stems (n=1)
 dttri_highf<-
@@ -180,11 +180,11 @@ dttri_final<-dttri_highfreqs %>%
 	select(pre_trigrams,last_trigrams)
 
 #save processed data
-saveRDS(dttri_final,"/Users/keithpost/Documents/Coursera/Data Science Specialization/10-Data Science Capstone/ShinyAppTextPredictor/data/dt_trigrams_freq.rds")
+saveRDS(dttri_final,"/Users/keithpost/Documents/Coursera/Data Science Specialization/10-Data Science Capstone/ShinyAppTextPredictor/text_pred_app/data/dt_trigrams_freq.rds")
 
 #4grams
 #load data
-dt_4grams<-data.table(readRDS("/Users/keithpost/Documents/Coursera/Data Science Specialization/10-Data Science Capstone/ShinyAppTextPredictor/data/dt_4grams.rds"))
+dt_4grams<-data.table(readRDS("/Users/keithpost/Documents/Coursera/Data Science Specialization/10-Data Science Capstone/ShinyAppTextPredictor/text_pred_app/data/dt_4grams.rds"))
 
 #compute stem counts and filter out unique stems (n=1)
 dt4_highf<-
@@ -209,11 +209,11 @@ dt4_final<-dt4_highfreqs %>%
 	select(pre_4grams,last_4grams)
 
 #save processed data
-saveRDS(dt4_final,"/Users/keithpost/Documents/Coursera/Data Science Specialization/10-Data Science Capstone/ShinyAppTextPredictor/data/dt_4grams_freq.rds")
+saveRDS(dt4_final,"/Users/keithpost/Documents/Coursera/Data Science Specialization/10-Data Science Capstone/ShinyAppTextPredictor/text_pred_app/data/dt_4grams_freq.rds")
 
 #5grams
 #load data
-dt_5grams<-data.table(readRDS("/Users/keithpost/Documents/Coursera/Data Science Specialization/10-Data Science Capstone/ShinyAppTextPredictor/data/dt_5grams.rds"))
+dt_5grams<-data.table(readRDS("/Users/keithpost/Documents/Coursera/Data Science Specialization/10-Data Science Capstone/ShinyAppTextPredictor/text_pred_app/data/dt_5grams.rds"))
 
 #compute stem counts and filter out unique stems (n=1)
 dt5_highf<-
@@ -238,6 +238,6 @@ dt5_final<-dt5_highfreqs %>%
 	select(pre_5grams,last_5grams)
 
 #save processed data
-saveRDS(dt5_final,"/Users/keithpost/Documents/Coursera/Data Science Specialization/10-Data Science Capstone/ShinyAppTextPredictor/data/dt_5grams_freq.rds")
+saveRDS(dt5_final,"/Users/keithpost/Documents/Coursera/Data Science Specialization/10-Data Science Capstone/ShinyAppTextPredictor/text_pred_app/data/dt_5grams_freq.rds")
 
 

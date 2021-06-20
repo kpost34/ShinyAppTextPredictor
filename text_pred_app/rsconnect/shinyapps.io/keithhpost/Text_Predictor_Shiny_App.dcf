@@ -1,0 +1,12 @@
+name: Text_Predictor_Shiny_App
+title: Text_Predictor_Shiny_App
+username:
+account: keithhpost
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 4293338
+bundleId: 4734856
+url: https://keithhpost.shinyapps.io/Text_Predictor_Shiny_App/
+when: 1624143859.28914
+asMultiple: FALSE
+asStatic: FALSE

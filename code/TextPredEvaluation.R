@@ -5,10 +5,10 @@ library(data.table)
 
 
 #2-Load n-gram files
-dt_bigrams_freq<-data.table(readRDS("/Users/keithpost/Documents/Coursera/Data Science Specialization/10-Data Science Capstone/ShinyAppTextPredictor/data/dt_bigrams_freq.rds"))
-dt_trigrams_freq<-data.table(readRDS("/Users/keithpost/Documents/Coursera/Data Science Specialization/10-Data Science Capstone/ShinyAppTextPredictor/data/dt_trigrams_freq.rds"))
-dt_4grams_freq<-data.table(readRDS("/Users/keithpost/Documents/Coursera/Data Science Specialization/10-Data Science Capstone/ShinyAppTextPredictor/data/dt_4grams_freq.rds"))
-dt_5grams_freq<-data.table(readRDS("/Users/keithpost/Documents/Coursera/Data Science Specialization/10-Data Science Capstone/ShinyAppTextPredictor/data/dt_5grams_freq.rds"))
+dt_bigrams_freq<-data.table(readRDS("/Users/keithpost/Documents/Coursera/Data Science Specialization/10-Data Science Capstone/ShinyAppTextPredictor/text_pred_app/data/dt_bigrams_freq.rds"))
+dt_trigrams_freq<-data.table(readRDS("/Users/keithpost/Documents/Coursera/Data Science Specialization/10-Data Science Capstone/ShinyAppTextPredictor/text_pred_app/data/dt_trigrams_freq.rds"))
+dt_4grams_freq<-data.table(readRDS("/Users/keithpost/Documents/Coursera/Data Science Specialization/10-Data Science Capstone/ShinyAppTextPredictor/text_pred_app/data/dt_4grams_freq.rds"))
+dt_5grams_freq<-data.table(readRDS("/Users/keithpost/Documents/Coursera/Data Science Specialization/10-Data Science Capstone/ShinyAppTextPredictor/text_pred_app/data/dt_5grams_freq.rds"))
 
 
 #3-Source text prediction model
@@ -72,13 +72,13 @@ tokst<-tokens(corptest,remove_punc=TRUE,remove_separators=TRUE)
 test_toks<-tokens_tolower(tokst)
 
 #remove obscene language
-badwords<-readLines("/Users/keithpost/Documents/Coursera/Data Science Specialization/10-Data Science Capstone/ShinyAppTextPredictor/data/badwords.txt")
+badwords<-readLines("/Users/keithpost/Documents/Coursera/Data Science Specialization/10-Data Science Capstone/ShinyAppTextPredictor/text_pred_app/data/badwords.txt")
 test_toks_bwr<-tokens_remove(test_toks,badwords) #removes offensive words
 
 #convert to proper object
 clean_char_test<-sapply(test_toks_bwr,paste,collapse=" ") #to character vector
 clean_corptest<-corpus(clean_char_test) #to corpus
-saveRDS(clean_corptest,"/Users/keithpost/Documents/Coursera/Data Science Specialization/10-Data Science Capstone/ShinyAppTextPredictor/data/corptest.rds")
+saveRDS(clean_corptest,"/Users/keithpost/Documents/Coursera/Data Science Specialization/10-Data Science Capstone/ShinyAppTextPredictor/text_pred_app/data/corptest.rds")
 
 
 #6-Source evaluation function
